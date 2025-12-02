@@ -973,11 +973,18 @@ document.addEventListener('DOMContentLoaded', function() {
       this._loop = this.loop.bind(this);
       this._resize = this.resize.bind(this);
       window.addEventListener('resize', this._resize);
+      this._initialized = false;
       this._onVisibility = () => {
+        // Don't interfere during initial load
+        if (!this._initialized) return;
+        
         const hidden = document.hidden;
         if (hidden) {
           this.pause();
         } else if (props.isVisibleRef && props.isVisibleRef()) {
+          this.start();
+        } else {
+          // Always try to start when page becomes visible
           this.start();
         }
       };
@@ -1006,6 +1013,7 @@ document.addEventListener('DOMContentLoaded', function() {
     start() {
       if (this.running) return;
       this.running = true;
+      this._initialized = true; // Mark as initialized after first start
       this._loop();
     }
     pause() {
@@ -1051,37 +1059,44 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
   // Start the animation immediately - assume visible on initial load
+  isVisible = true;
   webgl.start();
 
-  // IntersectionObserver to pause rendering when not visible
-  intersectionObserver = new IntersectionObserver(
-    entries => {
-      const entry = entries[0];
-      const newVisible = entry.isIntersecting && entry.intersectionRatio > 0;
-      
-      // On first callback, only update state if actually visible
-      // This prevents false negatives on initial load
-      if (firstIntersectionCallback) {
-        firstIntersectionCallback = false;
-        if (newVisible) {
-          isVisible = true;
-        }
-        // Don't pause on first callback even if it says not visible
-        // The animation is already running, so let it continue
-        return;
-      }
-      
-      isVisible = newVisible;
-      if (!webgl) return;
-      if (isVisible && !document.hidden) {
-        webgl.start();
-      } else {
-        webgl.pause();
-      }
-    },
-    { threshold: [0, 0.01, 0.1] }
-  );
-  intersectionObserver.observe(container);
+  // Delay IntersectionObserver setup to prevent it from interfering on initial load
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      // IntersectionObserver to pause rendering when not visible
+      intersectionObserver = new IntersectionObserver(
+        entries => {
+          const entry = entries[0];
+          const newVisible = entry.isIntersecting && entry.intersectionRatio > 0;
+          
+          // On first callback, don't pause - animation already running
+          if (firstIntersectionCallback) {
+            firstIntersectionCallback = false;
+            isVisible = newVisible;
+            // Ensure animation stays running
+            if (!webgl) return;
+            if (!webgl.running && !document.hidden) {
+              webgl.start();
+            }
+            return;
+          }
+          
+          // After first callback, normal behavior
+          isVisible = newVisible;
+          if (!webgl) return;
+          if (isVisible && !document.hidden) {
+            webgl.start();
+          } else {
+            webgl.pause();
+          }
+        },
+        { threshold: [0, 0.01, 0.1] }
+      );
+      intersectionObserver.observe(container);
+    });
+  });
 
   // ResizeObserver
   resizeObserver = new ResizeObserver(() => {
