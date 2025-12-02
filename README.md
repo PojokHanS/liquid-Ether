@@ -2,7 +2,13 @@
 
 A mesmerizing WebGL fluid simulation effect built with Three.js. Create beautiful, interactive liquid-like animations that respond to mouse and touch interactions.
 
-![Liquid Ether Demo](https://liquidetherdemo.vercel.app/)
+## 🎬 Preview
+
+https://github.com/faheem506pk/liquid-Ether/raw/main/demo.mp4
+
+<video src="demo.mp4" width="100%" autoplay loop muted playsinline></video>
+
+> 🔗 **[Live Demo](https://liquidetherdemo.vercel.app/)** - Try it in your browser!
 
 ## ✨ Features
 
@@ -15,13 +21,7 @@ A mesmerizing WebGL fluid simulation effect built with Three.js. Create beautifu
 - **Responsive** - Adapts to any container size
 - **Mobile Friendly** - Full touch support
 
-## 🎮 Demo
-
-### Live Preview
-
-Simply open `index.html` in your browser to see the effect in action!
-
-### How it works
+## 🎮 How It Works
 
 1. **Idle State**: The animation runs automatically with smooth, organic movements
 2. **Interactive**: Move your mouse or touch the screen to create fluid disturbances
@@ -132,6 +132,7 @@ liquid-Ether/
 ├── index.html      # Main HTML file
 ├── style.css       # Styling
 ├── script.js       # Fluid simulation engine
+├── demo.mp4        # Demo video
 └── README.md       # Documentation
 ```
 
@@ -161,9 +162,13 @@ MIT License - Feel free to use in personal and commercial projects.
 
 ## 🙏 Credits
 
-Built with ❤️ using Three.js
+Created by [@faheem506pk](https://github.com/faheem506pk)
+
+Built with ❤️ using [Three.js](https://threejs.org/)
 
 ---
 
 **Enjoy creating beautiful fluid effects!** ✨
+
+⭐ Star this repo if you like it!
 
