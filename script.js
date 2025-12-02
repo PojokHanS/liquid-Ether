@@ -1042,6 +1042,7 @@ document.addEventListener('DOMContentLoaded', function() {
   // Initialize
   let webgl = null;
   let rafId = null;
+  let resizeRafId = null; // Separate RAF for resize to not interfere with main loop
   let resizeObserver = null;
   let intersectionObserver = null;
   let isVisible = true;
@@ -1063,46 +1064,39 @@ document.addEventListener('DOMContentLoaded', function() {
   webgl.start();
 
   // Delay IntersectionObserver setup to prevent it from interfering on initial load
-  requestAnimationFrame(() => {
-    requestAnimationFrame(() => {
-      // IntersectionObserver to pause rendering when not visible
-      intersectionObserver = new IntersectionObserver(
-        entries => {
-          const entry = entries[0];
-          const newVisible = entry.isIntersecting && entry.intersectionRatio > 0;
-          
-          // On first callback, don't pause - animation already running
-          if (firstIntersectionCallback) {
-            firstIntersectionCallback = false;
-            isVisible = newVisible;
-            // Ensure animation stays running
-            if (!webgl) return;
-            if (!webgl.running && !document.hidden) {
-              webgl.start();
-            }
-            return;
-          }
-          
-          // After first callback, normal behavior
-          isVisible = newVisible;
-          if (!webgl) return;
-          if (isVisible && !document.hidden) {
-            webgl.start();
-          } else {
-            webgl.pause();
-          }
-        },
-        { threshold: [0, 0.01, 0.1] }
-      );
-      intersectionObserver.observe(container);
-    });
-  });
+  // Using setTimeout instead of requestAnimationFrame for more reliable delay
+  setTimeout(() => {
+    // IntersectionObserver to pause rendering when not visible
+    intersectionObserver = new IntersectionObserver(
+      entries => {
+        // Completely ignore the first callback - animation is already running
+        if (firstIntersectionCallback) {
+          firstIntersectionCallback = false;
+          return;
+        }
+        
+        const entry = entries[0];
+        const newVisible = entry.isIntersecting && entry.intersectionRatio > 0;
+        
+        isVisible = newVisible;
+        if (!webgl) return;
+        
+        if (isVisible && !document.hidden) {
+          webgl.start();
+        } else {
+          webgl.pause();
+        }
+      },
+      { threshold: [0, 0.01, 0.1] }
+    );
+    intersectionObserver.observe(container);
+  }, 500);
 
-  // ResizeObserver
+  // ResizeObserver - uses separate RAF to not cancel the main animation loop
   resizeObserver = new ResizeObserver(() => {
     if (!webgl) return;
-    if (rafId) cancelAnimationFrame(rafId);
-    rafId = requestAnimationFrame(() => {
+    if (resizeRafId) cancelAnimationFrame(resizeRafId);
+    resizeRafId = requestAnimationFrame(() => {
       if (!webgl) return;
       webgl.resize();
     });
@@ -1112,6 +1106,7 @@ document.addEventListener('DOMContentLoaded', function() {
   // Cleanup on page unload
   window.addEventListener('beforeunload', () => {
     if (rafId) cancelAnimationFrame(rafId);
+    if (resizeRafId) cancelAnimationFrame(resizeRafId);
     if (resizeObserver) {
       try {
         resizeObserver.disconnect();
@@ -1130,5 +1125,6 @@ document.addEventListener('DOMContentLoaded', function() {
       webgl.dispose();
     }
   });
+ 
 });
 
